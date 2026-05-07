@@ -1,17 +1,3 @@
-Your root repo should eventually explain:
-
-what this repository is
-why you built it
-folder structure
-lab environment
-learning progression
-
-But do not overengineer it today.
-
-Minimal professional root README is enough initially.
-
-Use something like:
-
 Network Security Labs
 
 This repository contains hands-on networking and low-level security labs built using Python and Linux.
