@@ -1,3 +1,7 @@
+"""
+Manual ARP reply packet crafting using Python raw sockets.
+"""
+
 import socket
 import struct
 def main():
