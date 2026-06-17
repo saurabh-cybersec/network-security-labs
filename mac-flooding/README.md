@@ -1,3 +1,42 @@
+# MAC Flooding Lab
+
+CAM table overflow attack on a physical switch using Python raw
+sockets — demonstrated on D-Link DES-1005C unmanaged switch.
+
+---
+
+## What I Built
+
+A Python script that:
+- Generates random source MAC addresses per packet
+- Crafts raw Ethernet frames using `struct.pack`
+- Floods the switch via `AF_PACKET, SOCK_RAW` at maximum speed
+- Runs continuously until `Ctrl+C`
+
+---
+
+## Lab Setup
+
+| Machine | Role | IP | Interface |
+|---------|------|----|-----------|
+| Kali Linux | Attacker | 10.10.10.1 | eth1 |
+| Ubuntu VM | Victim | 10.10.10.2 | enx... |
+| Raspberry Pi 3B+ | Observer | 10.10.10.3 | eth0 |
+| D-Link DES-1005C | Physical Switch | — | — |
+
+All machines connected via physical switch through USB-to-Ethernet
+adapters.
+
+---
+
+## Attack Flow
+
+Kali sends random MAC frames at maximum rate via eth1
+Switch CAM table fills up with fake MAC entries
+Switch enters fail-open mode — broadcasts all frames
+Pi receives Ubuntu↔Kali traffic it should never see
+
+
 ---
 
 ## Wireshark / tcpdump Observations
@@ -58,4 +97,3 @@ Fix: `sudo reboot` clears tmpfs on restart.
 ![Pi tcpdump — both directions](screenshots/pi_tcpdump.png)
 
 ---
-
